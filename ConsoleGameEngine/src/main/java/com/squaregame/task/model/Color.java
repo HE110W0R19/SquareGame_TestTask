@@ -1,11 +1,11 @@
 package com.squaregame.task.model;
 
 public enum Color {
-    WHITE,
-    BLACK;
+    W,
+    B;
 
     public static Color of(String color) {
-        return "WHITE".equals(color) ? Color.WHITE : Color.BLACK;
+        return "W".equals(color) ? Color.W : Color.B;
     }
 
     @Override
