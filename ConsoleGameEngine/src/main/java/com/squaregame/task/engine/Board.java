@@ -45,8 +45,8 @@ public class Board {
 
     public boolean hasSquare(Color c) {
         // Классический O(k^2) через поворот вектора (dx,dy):
-        //   A(x1,y1), B(x2,y2) -> C = A - (dy,-dx), D = B - (dy,-dx) и вариант с +(dy,-dx).
-        // dx,dy != (0,0). Все 4 точки должны существовать.
+        //   A(x1,y1), B(x2,y2) -> C = A - (dy,-dx), D = B - (dy, -dx) и вариант с +(dy, -dx).
+        // Dx, dy != (0,0). Все 4 точки должны существовать.
         var pts = byColor.get(c);
         if (pts.size() < 4) return false;
         var arr = pts.toArray(new Point[0]);
