@@ -18,6 +18,13 @@
         <java.version>17</java.version>
     </properties>
     <dependencies>
+        <!-- Engine from first console version -->
+        <dependency>
+            <groupId>com.squaregame.task</groupId>
+            <artifactId>SquareGameWeb</artifactId>
+            <version>1.0-SNAPSHOT</version>
+        </dependency>
+
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter</artifactId>
