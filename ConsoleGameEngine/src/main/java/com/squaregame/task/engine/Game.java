@@ -30,7 +30,26 @@ public class Game {
             return "Out of board!";
         if (!board.isEmpty(x, y))
             return "Cell is occupied!";
-        return "";
+
+        Color color = move.color();
+        board.place(x, y, color);
+
+        if (!move.isHuman()) {
+            //Логи хода ПК
+            System.out.printf("%s (%d, %d)%n", color, x, y);
+        }
+        if (board.hasSquare(color)) {
+            System.out.printf("game finished! %s win!%n", color);
+            gameState = GameState.FINISHED;
+            return null;
+        }
+        if (board.full()) {
+            finishGame();
+            return null;
+        }
+        //Меняем ход на другого игрока
+        move = (move == player1) ? player2 : player1;
+        return null;
     }
 
     public String userMove(int x, int y) {
@@ -40,7 +59,14 @@ public class Game {
             return "Game is finished!";
         if (!move.isHuman())
             return "Not your turn!";
-        return "";
+
+        String err = placeAndProgress(x, y);
+        if (err != null)
+            return err;
+
+        //Дальше играет ПК
+        maybeAutoPlay();
+        return null;
     }
 
     private void maybeAutoPlay() {
