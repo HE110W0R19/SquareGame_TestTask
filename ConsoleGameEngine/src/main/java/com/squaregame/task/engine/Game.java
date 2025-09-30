@@ -19,7 +19,7 @@ public class Game {
             return "Incorrect colors, cannot be two " + c1 + "/" + c2 + "!";
         this.board = new Board(N);
         this.player1 = "user".equals(p1) ? new UserPlayer(c1) : new ComputerPlayer(c1, board);
-        this.player2 = "user".equals(p2) ? new UserPlayer(c1) : new ComputerPlayer(c1, board);
+        this.player2 = "user".equals(p2) ? new UserPlayer(c2) : new ComputerPlayer(c2, board);
         this.move = player1;
         this.gameState = GameState.RUNNING;
         return null;
@@ -34,7 +34,7 @@ public class Game {
         Color color = move.color();
         board.place(x, y, color);
 
-        if (!move.isHuman()) {
+        if (move.isHuman()) {
             //Логи хода ПК
             System.out.printf("%s (%d, %d)%n", color, x, y);
         }
@@ -57,7 +57,7 @@ public class Game {
             return "Game is not started!";
         if (gameState == GameState.FINISHED)
             return "Game is finished!";
-        if (!move.isHuman())
+        if (move.isHuman())
             return "Not your turn!";
 
         String err = placeAndProgress(x, y);
@@ -69,10 +69,10 @@ public class Game {
         return null;
     }
 
-    private void maybeAutoPlay() {
+    public void maybeAutoPlay() {
         if (gameState != GameState.RUNNING)
             return;
-        while (!move.isHuman() && gameState == GameState.RUNNING) {
+        while (move.isHuman() && gameState == GameState.RUNNING) {
             Point m = move.nextMove();
             if (m == null) {
                 finishGame();

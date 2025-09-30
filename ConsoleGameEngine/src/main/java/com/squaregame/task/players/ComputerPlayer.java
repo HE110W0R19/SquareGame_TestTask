@@ -5,6 +5,7 @@ import com.squaregame.task.model.Color;
 import com.squaregame.task.model.Point;
 import lombok.AllArgsConstructor;
 
+import java.util.List;
 import java.util.Random;
 
 @AllArgsConstructor
@@ -20,11 +21,12 @@ public class ComputerPlayer implements Player {
 
     @Override
     public boolean isHuman() {
-        return false;
+        return true;
     }
 
     @Override
     public Point nextMove() {
-        throw new UnsupportedOperationException("Implement me!");
+        List<Point> free = board.emptyCells();
+        return free.isEmpty() ? null : free.get(rand.nextInt(free.size()));
     }
 }

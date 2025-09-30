@@ -26,13 +26,14 @@ public class Board {
     }
 
     public boolean isEmpty(int x, int y) {
-        return x >= 0 && x < N && y >= 0 && y < N;
+        return in(x, y) && cells[y][x] == null;
     }
 
-    public boolean place(int x, int y, Color c) {
-        if (!in(x, y) || cells[y][x] != null) return false;
-        cells[y][x] = c;
-        byColor.get(c).add(new Point(x, y));
+    public boolean place(int x, int y, Color color) {
+        if (!in(x, y) || cells[y][x] != null)
+            return false;
+        cells[y][x] = color;
+        byColor.get(color).add(new Point(x, y));
         return true;
     }
 
@@ -43,11 +44,11 @@ public class Board {
         return true;
     }
 
-    public boolean hasSquare(Color c) {
+    public boolean hasSquare(Color color) {
         // Классический O(k^2) через поворот вектора (dx,dy):
-        //   A(x1,y1), B(x2,y2) -> C = A - (dy,-dx), D = B - (dy, -dx) и вариант с +(dy, -dx).
-        // Dx, dy != (0,0). Все 4 точки должны существовать.
-        var pts = byColor.get(c);
+        //   A(x1,y1), B(x2,y2) -> C = A - (dy,-dx), D = B - (dy,-dx) и вариант с +(dy,-dx).
+        // dx,dy != (0,0). Все 4 точки должны существовать.
+        var pts = byColor.get(color);
         if (pts.size() < 4) return false;
         var arr = pts.toArray(new Point[0]);
         var set = pts; // HashSet для O(1)
@@ -57,17 +58,15 @@ public class Board {
                 int dy = arr[j].getY() - arr[i].getY();
                 if (dx == 0 && dy == 0) continue;
 
-                // вращение вектора на 90°: (dx, dy) -> (-dy, dx)
+                // вращение вектора на 90°: (dx,dy) -> (-dy,dx)
                 Point c1 = new Point(arr[i].getX() - dy, arr[i].getY() + dx);
                 Point d1 = new Point(arr[j].getX() - dy, arr[j].getY() + dx);
-                if (in(c1.getX(), c1.getY()) && in(d1.getX(), d1.getY()) && set.contains(c1) && set.contains(d1))
-                    return true;
+                if (in(c1.getX(), c1.getY()) && in(d1.getX(), d1.getY()) && set.contains(c1) && set.contains(d1)) return true;
 
-                // противоположная ориентация: (dx, dy) -> (dy, -dx)
+                // противоположная ориентация: (dx,dy) -> (dy,-dx)
                 Point c2 = new Point(arr[i].getX() + dy, arr[i].getY() - dx);
                 Point d2 = new Point(arr[j].getX() + dy, arr[j].getY() - dx);
-                if (in(c2.getX(), c2.getY()) && in(d2.getX(), d2.getY()) && set.contains(c2) && set.contains(d2))
-                    return true;
+                if (in(c2.getX(), c2.getY()) && in(d2.getX(), d2.getY()) && set.contains(c2) && set.contains(d2)) return true;
             }
         }
         return false;
