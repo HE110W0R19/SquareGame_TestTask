@@ -61,12 +61,14 @@ public class Board {
                 // вращение вектора на 90°: (dx,dy) -> (-dy,dx)
                 Point c1 = new Point(arr[i].getX() - dy, arr[i].getY() + dx);
                 Point d1 = new Point(arr[j].getX() - dy, arr[j].getY() + dx);
-                if (in(c1.getX(), c1.getY()) && in(d1.getX(), d1.getY()) && set.contains(c1) && set.contains(d1)) return true;
+                if (in(c1.getX(), c1.getY()) && in(d1.getX(), d1.getY()) && set.contains(c1) && set.contains(d1))
+                    return true;
 
                 // противоположная ориентация: (dx,dy) -> (dy,-dx)
                 Point c2 = new Point(arr[i].getX() + dy, arr[i].getY() - dx);
                 Point d2 = new Point(arr[j].getX() + dy, arr[j].getY() - dx);
-                if (in(c2.getX(), c2.getY()) && in(d2.getX(), d2.getY()) && set.contains(c2) && set.contains(d2)) return true;
+                if (in(c2.getX(), c2.getY()) && in(d2.getX(), d2.getY()) && set.contains(c2) && set.contains(d2))
+                    return true;
             }
         }
         return false;
