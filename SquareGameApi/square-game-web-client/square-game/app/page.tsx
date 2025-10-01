@@ -78,18 +78,23 @@ export default function HomePage() {
           min={3}
           max={20}
           value={size}
-          onChange={(e) => setSize(Number(e.target.value))}
-          disabled={!board.every((row) => row.every((c) => c === "E"))}
+          onChange={(e) => {
+            const newSize = Number(e.target.value);
+            setSize(newSize);
+            setBoard(makeEmpty(newSize)); // всегда пересоздаём поле правильного размера
+          }}
         />
 
         <label style={{ marginLeft: 20 }}>Ваш цвет: </label>
         <select
           value={userColor}
           onChange={(e) => {
-            const c = e.target.value as CellColor;
-            setUserColor(c);
-            setAiColor(c === "W" ? "B" : "W");
+          const c = e.target.value as CellColor;
+          setUserColor(c);
+          setAiColor(c === "W" ? "B" : "W");
+          setNext(c); // сбросить очередь хода на нового игрока
           }}
+
           disabled={!board.every((row) => row.every((c) => c === "E"))}
         >
           <option value="W">Белые ⚪</option>
