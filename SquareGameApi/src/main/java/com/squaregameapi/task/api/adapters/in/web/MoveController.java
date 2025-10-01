@@ -6,6 +6,9 @@ import com.squaregameapi.task.api.adapters.in.web.dto.MoveResponseDto;
 import com.squaregameapi.task.api.application.CalculateNextMoveUseCase;
 import com.squaregameapi.task.api.domain.model.BoardState;
 import com.squaregameapi.task.api.domain.model.MoveResponse;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import lombok.RequiredArgsConstructor;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -20,10 +23,17 @@ import org.springframework.http.MediaType;
 public class MoveController {
     private final CalculateNextMoveUseCase useCase;
 
+    @Operation(summary = "Рассчитать следующий ход")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Успешный расчёт хода"),
+            @ApiResponse(responseCode = "400", description = "Некорректные данные запроса"),
+            @ApiResponse(responseCode = "500", description = "Ошибка сервера")
+    })
     @PostMapping(value = "/next-move",
             consumes = MediaType.APPLICATION_JSON_VALUE,
             produces = MediaType.APPLICATION_JSON_VALUE)
-    public MoveResponseDto next(@Validated @RequestBody MoveRequestDto request) {
+    public MoveResponseDto next(
+            @Validated @RequestBody MoveRequestDto request) {
         var state = BoardState.builder()
                 .size(request.getSize())
                 .next(request.getNext())
