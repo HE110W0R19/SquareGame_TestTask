@@ -9,11 +9,4 @@ public class MoveResponseDto {
     private CellColor winner;
     private MoveDto move;
     private String message;
-
-    @Data
-    public static class MoveDto {
-        private int x;
-        private int y;
-        private CellColor color;
-    }
 }
